@@ -4,9 +4,9 @@
 
 | Tool | Calls | Success | Failed | Avg Duration |
 |------|-------|---------|--------|--------------|
-| read | 14 | 14 | 0 | 7ms |
-| write | 12 | 12 | 0 | 5ms |
-| bash | 6 | 6 | 0 | 6462ms |
-| edit | 4 | 4 | 0 | 9ms |
-| todowrite | 3 | 3 | 0 | 3ms |
+| read | 29 | 29 | 0 | 6ms |
+| edit | 21 | 21 | 0 | 8ms |
+| bash | 18 | 18 | 0 | 3476ms |
+| write | 18 | 18 | 0 | 5ms |
+| todowrite | 13 | 13 | 0 | 3ms |
 | batch_symbols | 1 | 1 | 0 | 2ms |

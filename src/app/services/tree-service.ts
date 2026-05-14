@@ -19,6 +19,8 @@ export class TreeService {
   private readonly maxDepthSubject = new BehaviorSubject<number>(5);
   private readonly hiddenLevelsSubject = new BehaviorSubject<Set<number>>(new Set());
   private readonly selectedBranchIdsSubject = new BehaviorSubject<Set<string>>(new Set());
+  private readonly excludedNodeIdsSubject = new BehaviorSubject<Set<string>>(new Set());
+  private readonly exclusiveNodeIdsSubject = new BehaviorSubject<Set<string>>(new Set());
 
   // Computed data subject - broadcast filtered tree to components
   private readonly filteredTreeSubject = new BehaviorSubject<TreeNode | null>(null);
@@ -37,6 +39,8 @@ export class TreeService {
   public allNodes$ = this.allNodesSubject.asObservable();
   public selectedBranchIds$ = this.selectedBranchIdsSubject.asObservable();
   public availableBranches$ = this.availableBranchesSubject.asObservable();
+  public excludedNodeIds$ = this.excludedNodeIdsSubject.asObservable();
+  public exclusiveNodeIds$ = this.exclusiveNodeIdsSubject.asObservable();
 
   constructor() {
     this.initializeData();
@@ -77,9 +81,35 @@ export class TreeService {
     return null;
   }
 
+  // Collect all descendant IDs of a node in the raw tree
+  private collectDescendantIds(node: TreeNode): Set<string> {
+    const ids = new Set<string>();
+    if (node.children) {
+      for (const child of node.children) {
+        ids.add(child.id);
+        const childDescendants = this.collectDescendantIds(child);
+        childDescendants.forEach(id => ids.add(id));
+      }
+    }
+    return ids;
+  }
+
   // Extract subtree with BFS/DFS limited to maxDepth generations below selected node
-  // Now respects branch selection: only includes children whose IDs are in selectedBranchIds
-  private extractSubtree(node: TreeNode, maxDepth: number, currentDepth: number = 0): TreeNode {
+  // Respects: branch selection, excluded nodes, and exclusive (pruned) nodes
+  private extractSubtree(node: TreeNode, maxDepth: number, currentDepth: number = 0): TreeNode | null {
+    const excludedIds = this.excludedNodeIdsSubject.getValue();
+    const exclusiveIds = this.exclusiveNodeIdsSubject.getValue();
+
+    // If this node is excluded, remove it entirely (return null so parent filters it out)
+    if (excludedIds.has(node.id)) {
+      return null;
+    }
+
+    // If this node is marked as exclusive (keep path only), prune all children
+    if (exclusiveIds.has(node.id)) {
+      return { id: node.id, name: node.name };
+    }
+
     if (currentDepth >= maxDepth || !node.children || node.children.length === 0) {
       return { id: node.id, name: node.name };
     }
@@ -92,9 +122,13 @@ export class TreeService {
       children = children.filter(child => selectedBranchIds.has(child.id));
     }
 
-    const mappedChildren = children.map(child =>
-      this.extractSubtree(child, maxDepth, currentDepth + 1)
-    );
+    const mappedChildren: TreeNode[] = [];
+    for (const child of children) {
+      const extracted = this.extractSubtree(child, maxDepth, currentDepth + 1);
+      if (extracted) {
+        mappedChildren.push(extracted);
+      }
+    }
 
     return {
       id: node.id,
@@ -196,6 +230,49 @@ export class TreeService {
   // Check if a branch is selected
   public isBranchSelected(branchId: string): boolean {
     return this.selectedBranchIdsSubject.getValue().has(branchId);
+  }
+
+  // Remove a node entirely from the tree (excludes it and all descendants)
+  public excludeNode(nodeId: string): void {
+    const current = new Set(this.excludedNodeIdsSubject.getValue());
+    current.add(nodeId);
+    this.excludedNodeIdsSubject.next(current);
+
+    // Also remove from exclusive set if present
+    const exclusiveCurrent = new Set(this.exclusiveNodeIdsSubject.getValue());
+    exclusiveCurrent.delete(nodeId);
+    this.exclusiveNodeIdsSubject.next(exclusiveCurrent);
+
+    // Remove from branch selection if it was a branch
+    const branchCurrent = new Set(this.selectedBranchIdsSubject.getValue());
+    branchCurrent.delete(nodeId);
+    this.selectedBranchIdsSubject.next(branchCurrent);
+
+    this.updateFilteredTree();
+  }
+
+  // Mark a node as exclusive: keep the path to it but prune all its children
+  public markExclusive(nodeId: string): void {
+    const current = new Set(this.exclusiveNodeIdsSubject.getValue());
+    current.add(nodeId);
+    this.exclusiveNodeIdsSubject.next(current);
+
+    // Remove from excluded set if present
+    const excludedCurrent = new Set(this.excludedNodeIdsSubject.getValue());
+    excludedCurrent.delete(nodeId);
+    this.excludedNodeIdsSubject.next(excludedCurrent);
+
+    this.updateFilteredTree();
+  }
+
+  // Check if a node is excluded
+  public isNodeExcluded(nodeId: string): boolean {
+    return this.excludedNodeIdsSubject.getValue().has(nodeId);
+  }
+
+  // Check if a node is marked as exclusive (pruned)
+  public isNodeExclusive(nodeId: string): boolean {
+    return this.exclusiveNodeIdsSubject.getValue().has(nodeId);
   }
 
   // Get the maximum depth available in the tree from the selected node

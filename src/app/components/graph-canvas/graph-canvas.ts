@@ -1,14 +1,29 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit, ChangeDetectorRef } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
 import * as d3 from 'd3';
 import { TreeNode } from '../../models/tree-node';
 import { TreeService } from '../../services/tree-service';
+import { NodeContextMenuComponent } from '../node-context-menu/node-context-menu';
 
 @Component({
   selector: 'app-graph-canvas',
   standalone: true,
-  imports: [],
-  template: `<svg #graphSvg></svg>`,
+  imports: [CommonModule, NodeContextMenuComponent],
+  template: `
+    <div class="canvas-wrapper" data-testid="canvas-wrapper" (click)="hideContextMenu()">
+      <svg #graphSvg data-testid="graph-svg"></svg>
+      <app-node-context-menu
+        *ngIf="menuVisible"
+        [x]="menuX"
+        [y]="menuY"
+        [nodeName]="menuNodeName"
+        [hasChildren]="menuHasChildren"
+        (onRemove)="handleRemove()"
+        (onPrune)="handlePrune()"
+      ></app-node-context-menu>
+    </div>
+  `,
   styleUrls: ['./graph-canvas.scss']
 })
 export class GraphCanvasComponent implements OnInit, OnDestroy, AfterViewInit {
@@ -19,7 +34,15 @@ export class GraphCanvasComponent implements OnInit, OnDestroy, AfterViewInit {
   private g: any;
   private zoom: any;
 
-  constructor(private treeService: TreeService) {}
+  // Context menu state
+  menuVisible = false;
+  menuX = 0;
+  menuY = 0;
+  menuNodeName = '';
+  menuNodeId = '';
+  menuHasChildren = false;
+
+  constructor(private treeService: TreeService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {}
 
@@ -49,9 +72,21 @@ export class GraphCanvasComponent implements OnInit, OnDestroy, AfterViewInit {
       setTimeout(() => this.renderTree(), 0);
     });
 
+    // Subscribe to excluded node changes
+    const excludedSub = this.treeService.excludedNodeIds$.subscribe(() => {
+      setTimeout(() => this.renderTree(), 0);
+    });
+
+    // Subscribe to exclusive node changes
+    const exclusiveSub = this.treeService.exclusiveNodeIds$.subscribe(() => {
+      setTimeout(() => this.renderTree(), 0);
+    });
+
     this.subscriptions.add(treeSub);
     this.subscriptions.add(hiddenLevelsSub);
     this.subscriptions.add(branchSub);
+    this.subscriptions.add(excludedSub);
+    this.subscriptions.add(exclusiveSub);
 
     // Initial render
     setTimeout(() => this.renderTree(), 100);
@@ -96,7 +131,7 @@ export class GraphCanvasComponent implements OnInit, OnDestroy, AfterViewInit {
     const links = root.links();
 
     // Draw links with smooth transitions
-    const linkSelection = this.g.selectAll('.link')
+    this.g.selectAll('.link')
       .data(links)
       .enter()
       .append('path')
@@ -125,20 +160,25 @@ export class GraphCanvasComponent implements OnInit, OnDestroy, AfterViewInit {
       .enter()
       .append('g')
       .attr('class', 'node')
+      .attr('data-testid', (d: any) => `node-${d.data.name}`)
       .attr('transform', (d: any) => `translate(${d.y},${d.x})`)
       .style('opacity', (d: any) => hiddenLevels.has(d.depth) ? 0 : 1)
       .style('pointer-events', (d: any) => hiddenLevels.has(d.depth) ? 'none' : 'all');
 
-    // Node circles with transitions
+    // Node circles - visible immediately with click handler attached directly
     node.append('circle')
-      .attr('r', 0)
-      .attr('fill', (d: any) => d.data.children ? '#4a90d9' : '#67b26f')
+      .attr('r', 12)
+      .attr('fill', (d: any) => {
+        if (this.treeService.isNodeExcluded(d.data.id)) return '#e74c3c';
+        if (this.treeService.isNodeExclusive(d.data.id)) return '#f39c12';
+        return d.data.children ? '#4a90d9' : '#67b26f';
+      })
       .attr('stroke', '#fff')
       .attr('stroke-width', 2)
-      .transition()
-      .duration(400)
-      .ease(d3.easeCubicInOut)
-      .attr('r', 12);
+      .on('click', (event: MouseEvent, d: any) => {
+        event.stopPropagation();
+        this.showContextMenu(event, d);
+      });
 
     // Node labels with transitions
     node.append('text')
@@ -167,5 +207,46 @@ export class GraphCanvasComponent implements OnInit, OnDestroy, AfterViewInit {
           .call(this.zoom.transform, d3.zoomIdentity.translate(translateX, translateY).scale(scale));
       }
     }, 100);
+  }
+
+  // Show context menu when a node is clicked
+  private showContextMenu(event: MouseEvent, nodeData: any): void {
+    const svgRect = this.graphSvg.nativeElement.getBoundingClientRect();
+    const x = event.clientX - svgRect.left;
+    const y = event.clientY - svgRect.top;
+
+    this.menuNodeId = nodeData.data.id;
+    this.menuNodeName = nodeData.data.name;
+    this.menuHasChildren = !!nodeData.children && nodeData.children.length > 0;
+    this.menuX = x + 15;
+    this.menuY = y - 10;
+
+    // Ensure menu stays within bounds
+    if (this.menuX + 240 > svgRect.width) {
+      this.menuX = x - 235;
+    }
+    if (this.menuY + 120 > svgRect.height) {
+      this.menuY = y - 120;
+    }
+
+    this.menuVisible = true;
+    // Force Angular change detection since D3 events fire outside the zone
+    this.cdr.detectChanges();
+  }
+
+  // Handle node removal from context menu
+  handleRemove(): void {
+    this.treeService.excludeNode(this.menuNodeId);
+    this.hideContextMenu();
+  }
+
+  // Handle prune children from context menu
+  handlePrune(): void {
+    this.treeService.markExclusive(this.menuNodeId);
+    this.hideContextMenu();
+  }
+
+  hideContextMenu(): void {
+    this.menuVisible = false;
   }
 }
