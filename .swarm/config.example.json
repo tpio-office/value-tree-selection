@@ -1,0 +1,101 @@
+{
+  "agents": {
+    "coder": {
+      "model": "opencode/minimax-m2.5-free",
+      "fallback_models": [
+        "opencode/big-pickle"
+      ]
+    },
+    "reviewer": {
+      "model": "opencode/big-pickle",
+      "fallback_models": [
+        "opencode/minimax-m2.5-free"
+      ]
+    },
+    "test_engineer": {
+      "model": "opencode/big-pickle",
+      "fallback_models": [
+        "opencode/minimax-m2.5-free"
+      ]
+    },
+    "explorer": {
+      "model": "opencode/big-pickle",
+      "fallback_models": [
+        "opencode/minimax-m2.5-free"
+      ]
+    },
+    "sme": {
+      "model": "opencode/big-pickle",
+      "fallback_models": [
+        "opencode/minimax-m2.5-free"
+      ]
+    },
+    "critic": {
+      "model": "opencode/big-pickle",
+      "fallback_models": [
+        "opencode/minimax-m2.5-free"
+      ]
+    },
+    "docs": {
+      "model": "opencode/big-pickle",
+      "fallback_models": [
+        "opencode/minimax-m2.5-free"
+      ]
+    },
+    "designer": {
+      "model": "opencode/big-pickle",
+      "fallback_models": [
+        "opencode/minimax-m2.5-free"
+      ]
+    },
+    "critic_sounding_board": {
+      "model": "opencode/big-pickle",
+      "fallback_models": [
+        "opencode/minimax-m2.5-free"
+      ]
+    },
+    "critic_drift_verifier": {
+      "model": "opencode/big-pickle",
+      "fallback_models": [
+        "opencode/minimax-m2.5-free"
+      ]
+    },
+    "critic_hallucination_verifier": {
+      "model": "opencode/big-pickle",
+      "fallback_models": [
+        "opencode/minimax-m2.5-free"
+      ]
+    },
+    "critic_oversight": {
+      "model": "opencode/big-pickle",
+      "fallback_models": [
+        "opencode/minimax-m2.5-free"
+      ]
+    },
+    "curator_init": {
+      "model": "opencode/big-pickle",
+      "fallback_models": [
+        "opencode/minimax-m2.5-free"
+      ]
+    },
+    "curator_phase": {
+      "model": "opencode/big-pickle",
+      "fallback_models": [
+        "opencode/minimax-m2.5-free"
+      ]
+    },
+    "skill_improver": {
+      "model": "opencode/big-pickle",
+      "fallback_models": [
+        "opencode/minimax-m2.5-free"
+      ]
+    },
+    "spec_writer": {
+      "model": "opencode/big-pickle",
+      "fallback_models": [
+        "opencode/minimax-m2.5-free"
+      ]
+    }
+  },
+  "max_iterations": 5
+}

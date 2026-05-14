@@ -1,0 +1,1 @@
+{"ts":"2026-05-14T13:38:22.268Z","sessionID":"ses_1dbf94ca8ffepINqAmP0wJ7DQv","agent":"build","tool":"bash","command":"npx @angular/cli new value-tree-app --directory . --style scss --routing false --ssr false --skip-tests --skip-install 2>&1"}
