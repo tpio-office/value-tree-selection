@@ -1,0 +1,51 @@
+:host {
+  display: block;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.app-header {
+  background: linear-gradient(135deg, #4a90d9 0%, #357abd 100%);
+  color: white;
+  padding: 16px 24px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  .app-title {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+  }
+
+  .app-subtitle {
+    margin: 4px 0 0 0;
+    font-size: 13px;
+    opacity: 0.9;
+  }
+}
+
+.app-main {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.sidebar {
+  width: 320px;
+  min-width: 280px;
+  padding: 16px;
+  background-color: #f5f7fa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+}
+
+.canvas-area {
+  flex: 1;
+  padding: 16px;
+  overflow: hidden;
+}

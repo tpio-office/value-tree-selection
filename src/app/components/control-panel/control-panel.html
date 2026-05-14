@@ -1,0 +1,80 @@
+<div class="control-panel">
+  <h2 class="panel-title">Tree Controls</h2>
+
+  <!-- Node Selection -->
+  <div class="control-group">
+    <label for="nodeSelect" class="control-label">Select Root Node</label>
+    <select id="nodeSelect" class="control-select" [(ngModel)]="selectedNodeId" (change)="onNodeSelected($event)">
+      <option *ngFor="let node of allNodes" [value]="node.id">
+        {{ '  '.repeat(node.depth) }}{{ node.name }}
+      </option>
+    </select>
+  </div>
+
+  <!-- Branch Selection -->
+  <div class="control-group branch-section" *ngIf="availableBranches.length > 0">
+    <label class="control-label section-label">
+      Branch Selection
+      <span class="branch-actions">
+        <a class="action-link" (click)="selectAllBranches()">Select All</a>
+        <span class="separator">|</span>
+        <a class="action-link" (click)="deselectAllBranches()">Deselect All</a>
+      </span>
+    </label>
+    <div class="branch-toggles">
+      <div *ngFor="let branch of availableBranches" class="branch-toggle">
+        <label class="toggle-label">
+          <input
+            type="checkbox"
+            [checked]="isBranchSelected(branch.id)"
+            (change)="toggleBranch(branch.id)"
+            class="toggle-checkbox"
+          />
+          <span class="toggle-text branch-name">{{ branch.name }}</span>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <!-- Depth Slider -->
+  <div class="control-group">
+    <label for="depthSlider" class="control-label">
+      Generation Depth: <span class="depth-value">{{ maxDepth }}</span>
+      <small>(max: {{ maxAvailableDepth }})</small>
+    </label>
+    <input
+      id="depthSlider"
+      type="range"
+      class="depth-slider"
+      min="0"
+      [max]="maxAvailableDepth"
+      [(ngModel)]="maxDepth"
+      (input)="onDepthChange($event)"
+    />
+  </div>
+
+  <!-- Level Visibility Toggles -->
+  <div class="control-group">
+    <label class="control-label section-label">Level Visibility</label>
+    <div class="level-toggles">
+      <div *ngFor="let level of availableLevels" class="level-toggle">
+        <label class="toggle-label">
+          <input
+            type="checkbox"
+            [checked]="!isLevelHidden(level)"
+            (change)="toggleLevel(level)"
+            class="toggle-checkbox"
+          />
+          <span class="toggle-text">Level {{ level }}</span>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <!-- Export Button -->
+  <div class="control-group">
+    <button class="export-btn" (click)="exportJson()">
+      Export JSON
+    </button>
+  </div>
+</div>

@@ -1,12 +1,211 @@
 {
   "schema_version": "1.0.0",
   "workspaceRoot": "/home/danny/projects/tpio/value-tree-selection",
-  "nodes": {},
-  "edges": [],
+  "nodes": {
+    "/home/danny/projects/tpio/value-tree-selection/src/app/models/tree-node.ts": {
+      "filePath": "/home/danny/projects/tpio/value-tree-selection/src/app/models/tree-node.ts",
+      "moduleName": "src/app/models/tree-node.ts",
+      "exports": [
+        "TreeNode",
+        "FlatNode"
+      ],
+      "imports": [],
+      "language": "typescript",
+      "mtime": "2026-05-14T13:40:21.682Z"
+    },
+    "/home/danny/projects/tpio/value-tree-selection/src/app/data/sample-data.ts": {
+      "filePath": "/home/danny/projects/tpio/value-tree-selection/src/app/data/sample-data.ts",
+      "moduleName": "src/app/data/sample-data.ts",
+      "exports": [
+        "sampleTreeData"
+      ],
+      "imports": [
+        "../models/tree-node"
+      ],
+      "language": "typescript",
+      "mtime": "2026-05-14T13:42:29.672Z"
+    },
+    "/home/danny/projects/tpio/value-tree-selection/src/app/app.ts": {
+      "filePath": "/home/danny/projects/tpio/value-tree-selection/src/app/app.ts",
+      "moduleName": "src/app/app.ts",
+      "exports": [
+        "App"
+      ],
+      "imports": [
+        "@angular/core",
+        "./components/graph-canvas/graph-canvas",
+        "./components/control-panel/control-panel"
+      ],
+      "language": "typescript",
+      "mtime": "2026-05-14T13:54:31.647Z"
+    },
+    "/home/danny/projects/tpio/value-tree-selection/src/app/services/tree-service.ts": {
+      "filePath": "/home/danny/projects/tpio/value-tree-selection/src/app/services/tree-service.ts",
+      "moduleName": "src/app/services/tree-service.ts",
+      "exports": [
+        "BranchInfo",
+        "TreeService",
+        "TreeService.constructor",
+        "TreeService.if",
+        "TreeService.for",
+        "TreeService.if",
+        "TreeService.if",
+        "TreeService.for",
+        "TreeService.if",
+        "TreeService.if",
+        "TreeService.if",
+        "TreeService.id",
+        "TreeService.name",
+        "TreeService.children",
+        "TreeService.if",
+        "TreeService.if",
+        "TreeService.id",
+        "TreeService.name",
+        "TreeService.setSelectedNodeId",
+        "TreeService.setMaxDepth",
+        "TreeService.toggleLevel",
+        "TreeService.isLevelHidden",
+        "TreeService.toggleBranch",
+        "TreeService.selectAllBranches",
+        "TreeService.deselectAllBranches",
+        "TreeService.isBranchSelected",
+        "TreeService.getMaxAvailableDepth",
+        "TreeService.if",
+        "TreeService.for",
+        "TreeService.if",
+        "TreeService.getExportData",
+        "TreeService.exportToJson",
+        "TreeService.getAllNodes",
+        "TreeService.getAvailableBranches"
+      ],
+      "imports": [
+        "@angular/core",
+        "rxjs",
+        "../models/tree-node",
+        "../data/sample-data"
+      ],
+      "language": "typescript",
+      "mtime": "2026-05-14T14:53:10.955Z"
+    },
+    "/home/danny/projects/tpio/value-tree-selection/src/app/components/control-panel/control-panel.ts": {
+      "filePath": "/home/danny/projects/tpio/value-tree-selection/src/app/components/control-panel/control-panel.ts",
+      "moduleName": "src/app/components/control-panel/control-panel.ts",
+      "exports": [
+        "ControlPanelComponent",
+        "ControlPanelComponent.allNodes",
+        "ControlPanelComponent.selectedNodeId",
+        "ControlPanelComponent.maxDepth",
+        "ControlPanelComponent.hiddenLevels",
+        "ControlPanelComponent.maxAvailableDepth",
+        "ControlPanelComponent.availableLevels",
+        "ControlPanelComponent.availableBranches",
+        "ControlPanelComponent.selectedBranchIds",
+        "ControlPanelComponent.ngOnInit",
+        "ControlPanelComponent.ngOnDestroy",
+        "ControlPanelComponent.onNodeSelected",
+        "ControlPanelComponent.if",
+        "ControlPanelComponent.onDepthChange",
+        "ControlPanelComponent.toggleLevel",
+        "ControlPanelComponent.toggleBranch",
+        "ControlPanelComponent.selectAllBranches",
+        "ControlPanelComponent.deselectAllBranches",
+        "ControlPanelComponent.isBranchSelected",
+        "ControlPanelComponent.exportJson",
+        "ControlPanelComponent.isLevelHidden"
+      ],
+      "imports": [
+        "@angular/core",
+        "@angular/common",
+        "@angular/forms",
+        "rxjs",
+        "../../models/tree-node",
+        "../../services/tree-service"
+      ],
+      "language": "typescript",
+      "mtime": "2026-05-14T14:58:07.633Z"
+    },
+    "/home/danny/projects/tpio/value-tree-selection/src/app/components/graph-canvas/graph-canvas.ts": {
+      "filePath": "/home/danny/projects/tpio/value-tree-selection/src/app/components/graph-canvas/graph-canvas.ts",
+      "moduleName": "src/app/components/graph-canvas/graph-canvas.ts",
+      "exports": [
+        "GraphCanvasComponent",
+        "GraphCanvasComponent.ngOnInit",
+        "GraphCanvasComponent.ngAfterViewInit",
+        "GraphCanvasComponent.ngOnDestroy",
+        "GraphCanvasComponent.treeLayout",
+        "GraphCanvasComponent.if"
+      ],
+      "imports": [
+        "@angular/core",
+        "rxjs",
+        "d3",
+        "../../models/tree-node",
+        "../../services/tree-service"
+      ],
+      "language": "typescript",
+      "mtime": "2026-05-14T15:08:09.953Z"
+    }
+  },
+  "edges": [
+    {
+      "source": "/home/danny/projects/tpio/value-tree-selection/src/app/data/sample-data.ts",
+      "target": "/home/danny/projects/tpio/value-tree-selection/src/app/models/tree-node.ts",
+      "importSpecifier": "../models/tree-node",
+      "importType": "named"
+    },
+    {
+      "source": "/home/danny/projects/tpio/value-tree-selection/src/app/app.ts",
+      "target": "/home/danny/projects/tpio/value-tree-selection/src/app/components/control-panel/control-panel.ts",
+      "importSpecifier": "./components/control-panel/control-panel",
+      "importType": "named"
+    },
+    {
+      "source": "/home/danny/projects/tpio/value-tree-selection/src/app/app.ts",
+      "target": "/home/danny/projects/tpio/value-tree-selection/src/app/components/graph-canvas/graph-canvas.ts",
+      "importSpecifier": "./components/graph-canvas/graph-canvas",
+      "importType": "named"
+    },
+    {
+      "source": "/home/danny/projects/tpio/value-tree-selection/src/app/services/tree-service.ts",
+      "target": "/home/danny/projects/tpio/value-tree-selection/src/app/data/sample-data.ts",
+      "importSpecifier": "../data/sample-data",
+      "importType": "named"
+    },
+    {
+      "source": "/home/danny/projects/tpio/value-tree-selection/src/app/services/tree-service.ts",
+      "target": "/home/danny/projects/tpio/value-tree-selection/src/app/models/tree-node.ts",
+      "importSpecifier": "../models/tree-node",
+      "importType": "named"
+    },
+    {
+      "source": "/home/danny/projects/tpio/value-tree-selection/src/app/components/control-panel/control-panel.ts",
+      "target": "/home/danny/projects/tpio/value-tree-selection/src/app/models/tree-node.ts",
+      "importSpecifier": "../../models/tree-node",
+      "importType": "named"
+    },
+    {
+      "source": "/home/danny/projects/tpio/value-tree-selection/src/app/components/control-panel/control-panel.ts",
+      "target": "/home/danny/projects/tpio/value-tree-selection/src/app/services/tree-service.ts",
+      "importSpecifier": "../../services/tree-service",
+      "importType": "named"
+    },
+    {
+      "source": "/home/danny/projects/tpio/value-tree-selection/src/app/components/graph-canvas/graph-canvas.ts",
+      "target": "/home/danny/projects/tpio/value-tree-selection/src/app/models/tree-node.ts",
+      "importSpecifier": "../../models/tree-node",
+      "importType": "named"
+    },
+    {
+      "source": "/home/danny/projects/tpio/value-tree-selection/src/app/components/graph-canvas/graph-canvas.ts",
+      "target": "/home/danny/projects/tpio/value-tree-selection/src/app/services/tree-service.ts",
+      "importSpecifier": "../../services/tree-service",
+      "importType": "named"
+    }
+  ],
   "metadata": {
-    "generatedAt": "2026-05-14T01:07:53.229Z",
+    "generatedAt": "2026-05-14T15:08:09.960Z",
     "generator": "repo-graph",
-    "nodeCount": 0,
-    "edgeCount": 0
+    "nodeCount": 6,
+    "edgeCount": 9
   }
 }
