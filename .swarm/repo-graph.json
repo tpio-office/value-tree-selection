@@ -76,62 +76,6 @@
       "language": "typescript",
       "mtime": "2026-05-14T14:58:07.633Z"
     },
-    "/home/danny/projects/tpio/value-tree-selection/src/app/services/tree-service.ts": {
-      "filePath": "/home/danny/projects/tpio/value-tree-selection/src/app/services/tree-service.ts",
-      "moduleName": "src/app/services/tree-service.ts",
-      "exports": [
-        "BranchInfo",
-        "TreeService",
-        "TreeService.constructor",
-        "TreeService.if",
-        "TreeService.for",
-        "TreeService.if",
-        "TreeService.if",
-        "TreeService.for",
-        "TreeService.if",
-        "TreeService.if",
-        "TreeService.for",
-        "TreeService.if",
-        "TreeService.if",
-        "TreeService.for",
-        "TreeService.if",
-        "TreeService.id",
-        "TreeService.name",
-        "TreeService.children",
-        "TreeService.if",
-        "TreeService.if",
-        "TreeService.id",
-        "TreeService.name",
-        "TreeService.setSelectedNodeId",
-        "TreeService.setMaxDepth",
-        "TreeService.toggleLevel",
-        "TreeService.isLevelHidden",
-        "TreeService.toggleBranch",
-        "TreeService.selectAllBranches",
-        "TreeService.deselectAllBranches",
-        "TreeService.isBranchSelected",
-        "TreeService.excludeNode",
-        "TreeService.markExclusive",
-        "TreeService.isNodeExcluded",
-        "TreeService.isNodeExclusive",
-        "TreeService.getMaxAvailableDepth",
-        "TreeService.if",
-        "TreeService.for",
-        "TreeService.if",
-        "TreeService.getExportData",
-        "TreeService.exportToJson",
-        "TreeService.getAllNodes",
-        "TreeService.getAvailableBranches"
-      ],
-      "imports": [
-        "@angular/core",
-        "rxjs",
-        "../models/tree-node",
-        "../data/sample-data"
-      ],
-      "language": "typescript",
-      "mtime": "2026-05-14T16:44:43.559Z"
-    },
     "/home/danny/projects/tpio/value-tree-selection/playwright.config.ts": {
       "filePath": "/home/danny/projects/tpio/value-tree-selection/playwright.config.ts",
       "moduleName": "playwright.config.ts",
@@ -155,17 +99,7 @@
         "@angular/common"
       ],
       "language": "typescript",
-      "mtime": "2026-05-14T18:52:12.561Z"
-    },
-    "/home/danny/projects/tpio/value-tree-selection/e2e/tests/context-menu.spec.ts": {
-      "filePath": "/home/danny/projects/tpio/value-tree-selection/e2e/tests/context-menu.spec.ts",
-      "moduleName": "e2e/tests/context-menu.spec.ts",
-      "exports": [],
-      "imports": [
-        "@playwright/test"
-      ],
-      "language": "typescript",
-      "mtime": "2026-05-14T18:58:20.463Z"
+      "mtime": "2026-05-14T20:56:31.222Z"
     },
     "/home/danny/projects/tpio/value-tree-selection/src/app/components/graph-canvas/graph-canvas.ts": {
       "filePath": "/home/danny/projects/tpio/value-tree-selection/src/app/components/graph-canvas/graph-canvas.ts",
@@ -180,7 +114,7 @@
         "GraphCanvasComponent.if",
         "GraphCanvasComponent.if",
         "GraphCanvasComponent.handleRemove",
-        "GraphCanvasComponent.handlePrune",
+        "GraphCanvasComponent.handleKeepPath",
         "GraphCanvasComponent.hideContextMenu"
       ],
       "imports": [
@@ -193,7 +127,84 @@
         "../node-context-menu/node-context-menu"
       ],
       "language": "typescript",
-      "mtime": "2026-05-14T19:16:39.315Z"
+      "mtime": "2026-05-14T20:58:54.824Z"
+    },
+    "/home/danny/projects/tpio/value-tree-selection/src/app/services/tree-service.ts": {
+      "filePath": "/home/danny/projects/tpio/value-tree-selection/src/app/services/tree-service.ts",
+      "moduleName": "src/app/services/tree-service.ts",
+      "exports": [
+        "BranchInfo",
+        "TreeService",
+        "TreeService.constructor",
+        "TreeService.if",
+        "TreeService.for",
+        "TreeService.if",
+        "TreeService.if",
+        "TreeService.for",
+        "TreeService.if",
+        "TreeService.if",
+        "TreeService.for",
+        "TreeService.if",
+        "TreeService.if",
+        "TreeService.if",
+        "TreeService.for",
+        "TreeService.if",
+        "TreeService.if",
+        "TreeService.for",
+        "TreeService.if",
+        "TreeService.id",
+        "TreeService.name",
+        "TreeService.children",
+        "TreeService.if",
+        "TreeService.if",
+        "TreeService.id",
+        "TreeService.name",
+        "TreeService.setSelectedNodeId",
+        "TreeService.setMaxDepth",
+        "TreeService.toggleLevel",
+        "TreeService.isLevelHidden",
+        "TreeService.toggleBranch",
+        "TreeService.selectAllBranches",
+        "TreeService.deselectAllBranches",
+        "TreeService.isBranchSelected",
+        "TreeService.excludeNode",
+        "TreeService.keepPathOnly",
+        "TreeService.if",
+        "TreeService.for",
+        "TreeService.if",
+        "TreeService.for",
+        "TreeService.if",
+        "TreeService.isNodeExcluded",
+        "TreeService.isNodeExclusive",
+        "TreeService.hasSiblings",
+        "TreeService.if",
+        "TreeService.getMaxAvailableDepth",
+        "TreeService.if",
+        "TreeService.for",
+        "TreeService.if",
+        "TreeService.getExportData",
+        "TreeService.exportToJson",
+        "TreeService.getAllNodes",
+        "TreeService.getAvailableBranches"
+      ],
+      "imports": [
+        "@angular/core",
+        "rxjs",
+        "../models/tree-node",
+        "../data/sample-data"
+      ],
+      "language": "typescript",
+      "mtime": "2026-05-14T21:00:11.937Z"
+    },
+    "/home/danny/projects/tpio/value-tree-selection/e2e/tests/context-menu.spec.ts": {
+      "filePath": "/home/danny/projects/tpio/value-tree-selection/e2e/tests/context-menu.spec.ts",
+      "moduleName": "e2e/tests/context-menu.spec.ts",
+      "exports": [],
+      "imports": [
+        "@playwright/test"
+      ],
+      "language": "typescript",
+      "mtime": "2026-05-14T21:06:22.932Z"
     }
   },
   "edges": [
@@ -228,18 +239,6 @@
       "importType": "named"
     },
     {
-      "source": "/home/danny/projects/tpio/value-tree-selection/src/app/services/tree-service.ts",
-      "target": "/home/danny/projects/tpio/value-tree-selection/src/app/data/sample-data.ts",
-      "importSpecifier": "../data/sample-data",
-      "importType": "named"
-    },
-    {
-      "source": "/home/danny/projects/tpio/value-tree-selection/src/app/services/tree-service.ts",
-      "target": "/home/danny/projects/tpio/value-tree-selection/src/app/models/tree-node.ts",
-      "importSpecifier": "../models/tree-node",
-      "importType": "named"
-    },
-    {
       "source": "/home/danny/projects/tpio/value-tree-selection/src/app/components/graph-canvas/graph-canvas.ts",
       "target": "/home/danny/projects/tpio/value-tree-selection/src/app/models/tree-node.ts",
       "importSpecifier": "../../models/tree-node",
@@ -256,10 +255,22 @@
       "target": "/home/danny/projects/tpio/value-tree-selection/src/app/components/node-context-menu/node-context-menu.ts",
       "importSpecifier": "../node-context-menu/node-context-menu",
       "importType": "named"
+    },
+    {
+      "source": "/home/danny/projects/tpio/value-tree-selection/src/app/services/tree-service.ts",
+      "target": "/home/danny/projects/tpio/value-tree-selection/src/app/data/sample-data.ts",
+      "importSpecifier": "../data/sample-data",
+      "importType": "named"
+    },
+    {
+      "source": "/home/danny/projects/tpio/value-tree-selection/src/app/services/tree-service.ts",
+      "target": "/home/danny/projects/tpio/value-tree-selection/src/app/models/tree-node.ts",
+      "importSpecifier": "../models/tree-node",
+      "importType": "named"
     }
   ],
   "metadata": {
-    "generatedAt": "2026-05-14T19:16:39.324Z",
+    "generatedAt": "2026-05-14T21:06:22.939Z",
     "generator": "repo-graph",
     "nodeCount": 9,
     "edgeCount": 10

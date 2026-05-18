@@ -1,13 +1,13 @@
 {
   "version": 2,
-  "writtenAt": 1778786311356,
+  "writtenAt": 1778853861935,
   "toolAggregates": {
     "read": {
       "tool": "read",
-      "count": 30,
-      "successCount": 30,
+      "count": 36,
+      "successCount": 36,
       "failureCount": 0,
-      "totalDuration": 193
+      "totalDuration": 240
     },
     "todowrite": {
       "tool": "todowrite",
@@ -18,10 +18,10 @@
     },
     "bash": {
       "tool": "bash",
-      "count": 25,
-      "successCount": 25,
+      "count": 28,
+      "successCount": 28,
       "failureCount": 0,
-      "totalDuration": 114379
+      "totalDuration": 132224
     },
     "write": {
       "tool": "write",
@@ -32,10 +32,10 @@
     },
     "edit": {
       "tool": "edit",
-      "count": 26,
-      "successCount": 26,
+      "count": 38,
+      "successCount": 38,
       "failureCount": 0,
-      "totalDuration": 201
+      "totalDuration": 286
     },
     "batch_symbols": {
       "tool": "batch_symbols",
@@ -43,6 +43,20 @@
       "successCount": 1,
       "failureCount": 0,
       "totalDuration": 2
+    },
+    "invalid": {
+      "tool": "invalid",
+      "count": 2,
+      "successCount": 2,
+      "failureCount": 0,
+      "totalDuration": 0
+    },
+    "glob": {
+      "tool": "glob",
+      "count": 2,
+      "successCount": 2,
+      "failureCount": 0,
+      "totalDuration": 18
     }
   },
   "activeAgent": {
@@ -52,14 +66,53 @@
   "agentSessions": {
     "ses_1dbf94ca8ffepINqAmP0wJ7DQv": {
       "agentName": "build",
-      "lastToolCallTime": 1778783726411,
+      "lastToolCallTime": 1778853570891,
       "lastAgentEventTime": 1778720879487,
       "delegationActive": true,
-      "activeInvocationId": 7,
+      "activeInvocationId": 10,
       "lastInvocationIdByAgent": {
-        "build": 7
+        "build": 10
       },
       "windows": {
+        "build:10": {
+          "id": 10,
+          "agentName": "build",
+          "startedAtMs": 1778853570891,
+          "toolCalls": 0,
+          "consecutiveErrors": 0,
+          "hardLimitHit": false,
+          "lastSuccessTimeMs": 1778853861934,
+          "recentToolCalls": [],
+          "warningIssued": false,
+          "warningReason": "",
+          "transientRetryCount": 0
+        },
+        "build:9": {
+          "id": 9,
+          "agentName": "build",
+          "startedAtMs": 1778791315816,
+          "toolCalls": 0,
+          "consecutiveErrors": 0,
+          "hardLimitHit": false,
+          "lastSuccessTimeMs": 1778792782937,
+          "recentToolCalls": [],
+          "warningIssued": false,
+          "warningReason": "",
+          "transientRetryCount": 0
+        },
+        "build:8": {
+          "id": 8,
+          "agentName": "build",
+          "startedAtMs": 1778789332441,
+          "toolCalls": 0,
+          "consecutiveErrors": 0,
+          "hardLimitHit": false,
+          "lastSuccessTimeMs": 1778790816242,
+          "recentToolCalls": [],
+          "warningIssued": false,
+          "warningReason": "",
+          "transientRetryCount": 0
+        },
         "build:7": {
           "id": 7,
           "agentName": "build",
@@ -120,32 +173,6 @@
           "consecutiveErrors": 0,
           "hardLimitHit": false,
           "lastSuccessTimeMs": 1778769420392,
-          "recentToolCalls": [],
-          "warningIssued": false,
-          "warningReason": "",
-          "transientRetryCount": 0
-        },
-        "build:2": {
-          "id": 2,
-          "agentName": "build",
-          "startedAtMs": 1778765738126,
-          "toolCalls": 0,
-          "consecutiveErrors": 0,
-          "hardLimitHit": false,
-          "lastSuccessTimeMs": 1778767513543,
-          "recentToolCalls": [],
-          "warningIssued": false,
-          "warningReason": "",
-          "transientRetryCount": 0
-        },
-        "build:1": {
-          "id": 1,
-          "agentName": "build",
-          "startedAtMs": 1778720879487,
-          "toolCalls": 0,
-          "consecutiveErrors": 0,
-          "hardLimitHit": false,
-          "lastSuccessTimeMs": 1778720879487,
           "recentToolCalls": [],
           "warningIssued": false,
           "warningReason": "",

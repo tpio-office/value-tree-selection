@@ -81,6 +81,23 @@ export class TreeService {
     return null;
   }
 
+  // Find the parent of a node by ID using DFS, returns null if root or not found
+  private findParent(node: TreeNode, childId: string): TreeNode | null {
+    if (!node.children) {
+      return null;
+    }
+    for (const child of node.children) {
+      if (child.id === childId) {
+        return node;
+      }
+      const found = this.findParent(child, childId);
+      if (found) {
+        return found;
+      }
+    }
+    return null;
+  }
+
   // Collect all descendant IDs of a node in the raw tree
   private collectDescendantIds(node: TreeNode): Set<string> {
     const ids = new Set<string>();
@@ -251,16 +268,34 @@ export class TreeService {
     this.updateFilteredTree();
   }
 
-  // Mark a node as exclusive: keep the path to it but prune all its children
-  public markExclusive(nodeId: string): void {
-    const current = new Set(this.exclusiveNodeIdsSubject.getValue());
-    current.add(nodeId);
-    this.exclusiveNodeIdsSubject.next(current);
+  // Keep path only: exclude all siblings of the given node, keeping only that node and its descendants
+  public keepPathOnly(nodeId: string): void {
+    const parent = this.findParent(this.rawData, nodeId);
 
-    // Remove from excluded set if present
-    const excludedCurrent = new Set(this.excludedNodeIdsSubject.getValue());
-    excludedCurrent.delete(nodeId);
-    this.excludedNodeIdsSubject.next(excludedCurrent);
+    if (parent && parent.children) {
+      // Exclude all siblings (children of the same parent except the target node)
+      const excludedCurrent = new Set(this.excludedNodeIdsSubject.getValue());
+      for (const child of parent.children) {
+        if (child.id !== nodeId) {
+          excludedCurrent.add(child.id);
+        }
+      }
+      this.excludedNodeIdsSubject.next(excludedCurrent);
+
+      // Remove from exclusive set if present
+      const exclusiveCurrent = new Set(this.exclusiveNodeIdsSubject.getValue());
+      exclusiveCurrent.delete(nodeId);
+      this.exclusiveNodeIdsSubject.next(exclusiveCurrent);
+
+      // Also update branch selection: remove excluded siblings from selected branches
+      const branchCurrent = new Set(this.selectedBranchIdsSubject.getValue());
+      for (const child of parent.children) {
+        if (child.id !== nodeId) {
+          branchCurrent.delete(child.id);
+        }
+      }
+      this.selectedBranchIdsSubject.next(branchCurrent);
+    }
 
     this.updateFilteredTree();
   }
@@ -273,6 +308,15 @@ export class TreeService {
   // Check if a node is marked as exclusive (pruned)
   public isNodeExclusive(nodeId: string): boolean {
     return this.exclusiveNodeIdsSubject.getValue().has(nodeId);
+  }
+
+  // Check if a node has siblings in the raw tree
+  public hasSiblings(nodeId: string): boolean {
+    const parent = this.findParent(this.rawData, nodeId);
+    if (!parent || !parent.children) {
+      return false;
+    }
+    return parent.children.length > 1;
   }
 
   // Get the maximum depth available in the tree from the selected node

@@ -11,8 +11,8 @@ import { CommonModule } from '@angular/common';
       <button class="menu-item remove-btn" data-testid="remove-node-btn" (click)="onRemove.emit()">
         <span class="icon">✕</span> Remove Node
       </button>
-      <button class="menu-item prune-btn" data-testid="prune-children-btn" (click)="onPrune.emit()" *ngIf="hasChildren">
-        <span class="icon">⊘</span> Keep Path Only (Prune Children)
+      <button class="menu-item keep-path-btn" data-testid="keep-path-only-btn" (click)="onKeepPath.emit()" *ngIf="hasSiblings">
+        <span class="icon">⊘</span> Keep Path Only
       </button>
     </div>
   `,
@@ -22,8 +22,8 @@ export class NodeContextMenuComponent {
   @Input() x: number = 0;
   @Input() y: number = 0;
   @Input() nodeName: string = '';
-  @Input() hasChildren: boolean = false;
+  @Input() hasSiblings: boolean = false;
 
   @Output() onRemove = new EventEmitter<string>();
-  @Output() onPrune = new EventEmitter<string>();
+  @Output() onKeepPath = new EventEmitter<string>();
 }

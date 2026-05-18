@@ -18,9 +18,9 @@ import { NodeContextMenuComponent } from '../node-context-menu/node-context-menu
         [x]="menuX"
         [y]="menuY"
         [nodeName]="menuNodeName"
-        [hasChildren]="menuHasChildren"
+        [hasSiblings]="menuHasSiblings"
         (onRemove)="handleRemove()"
-        (onPrune)="handlePrune()"
+        (onKeepPath)="handleKeepPath()"
       ></app-node-context-menu>
     </div>
   `,
@@ -40,7 +40,7 @@ export class GraphCanvasComponent implements OnInit, OnDestroy, AfterViewInit {
   menuY = 0;
   menuNodeName = '';
   menuNodeId = '';
-  menuHasChildren = false;
+  menuHasSiblings = false;
 
   constructor(private treeService: TreeService, private cdr: ChangeDetectorRef) {}
 
@@ -217,7 +217,7 @@ export class GraphCanvasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.menuNodeId = nodeData.data.id;
     this.menuNodeName = nodeData.data.name;
-    this.menuHasChildren = !!nodeData.children && nodeData.children.length > 0;
+    this.menuHasSiblings = this.treeService.hasSiblings(nodeData.data.id);
     this.menuX = x + 15;
     this.menuY = y - 10;
 
@@ -240,9 +240,9 @@ export class GraphCanvasComponent implements OnInit, OnDestroy, AfterViewInit {
     this.hideContextMenu();
   }
 
-  // Handle prune children from context menu
-  handlePrune(): void {
-    this.treeService.markExclusive(this.menuNodeId);
+  // Handle keep path only (remove siblings) from context menu
+  handleKeepPath(): void {
+    this.treeService.keepPathOnly(this.menuNodeId);
     this.hideContextMenu();
   }
 
