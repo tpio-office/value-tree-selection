@@ -225,6 +225,10 @@ export class TreeService {
       current.delete(branchId);
     } else {
       current.add(branchId);
+      // Also remove from excludedNodeIds when re-checking a branch
+      const excludedCurrent = new Set(this.excludedNodeIdsSubject.getValue());
+      excludedCurrent.delete(branchId);
+      this.excludedNodeIdsSubject.next(excludedCurrent);
     }
     this.selectedBranchIdsSubject.next(current);
     this.updateFilteredTree();
@@ -317,6 +321,86 @@ export class TreeService {
       return false;
     }
     return parent.children.length > 1;
+  }
+
+  // Check if a node has any siblings (or their descendants) in excludedNodeIds
+  public hasExcludedSiblings(nodeId: string): boolean {
+    const parent = this.findParent(this.rawData, nodeId);
+    if (!parent || !parent.children) {
+      return false;
+    }
+
+    const excludedIds = this.excludedNodeIdsSubject.getValue();
+
+    // Check each sibling (excluding the node itself)
+    for (const child of parent.children) {
+      if (child.id === nodeId) {
+        continue;
+      }
+      // Check if this sibling or any of its descendants are excluded
+      if (excludedIds.has(child.id) || this.hasExcludedDescendants(child, excludedIds)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  // Helper to check if a node or any of its descendants are in the excluded set
+  private hasExcludedDescendants(node: TreeNode, excludedIds: Set<string>): boolean {
+    if (!node.children) {
+      return false;
+    }
+    for (const child of node.children) {
+      if (excludedIds.has(child.id) || this.hasExcludedDescendants(child, excludedIds)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  // Restore all siblings of the given node (remove from excludedNodeIds)
+  public restoreExcludedSiblings(nodeId: string): void {
+    const parent = this.findParent(this.rawData, nodeId);
+
+    if (parent && parent.children) {
+      const excludedCurrent = new Set(this.excludedNodeIdsSubject.getValue());
+
+      // Remove all siblings and their descendants from excluded set
+      for (const child of parent.children) {
+        if (child.id === nodeId) {
+          continue;
+        }
+        // Remove the sibling itself
+        excludedCurrent.delete(child.id);
+        // Remove all descendants of this sibling
+        this.removeDescendantsFromExcluded(child, excludedCurrent);
+      }
+
+      this.excludedNodeIdsSubject.next(excludedCurrent);
+
+      // Also restore branch selection for siblings
+      const branchCurrent = new Set(this.selectedBranchIdsSubject.getValue());
+      for (const child of parent.children) {
+        if (child.id !== nodeId) {
+          branchCurrent.add(child.id);
+        }
+      }
+      this.selectedBranchIdsSubject.next(branchCurrent);
+    }
+
+    this.updateFilteredTree();
+  }
+
+  // Helper to remove all descendants of a node from the excluded set
+  private removeDescendantsFromExcluded(node: TreeNode, excludedSet: Set<string>): void {
+    if (!node.children) {
+      return;
+    }
+    for (const child of node.children) {
+      excludedSet.delete(child.id);
+      this.removeDescendantsFromExcluded(child, excludedSet);
+    }
   }
 
   // Get the maximum depth available in the tree from the selected node

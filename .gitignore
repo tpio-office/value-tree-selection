@@ -43,3 +43,6 @@ __screenshots__/
 .DS_Store
 Thumbs.db
 test-results
+# CocoIndex Code (ccc)
+/.cocoindex_code/
+.swarm/

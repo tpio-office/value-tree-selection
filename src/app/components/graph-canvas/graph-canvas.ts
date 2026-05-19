@@ -19,8 +19,10 @@ import { NodeContextMenuComponent } from '../node-context-menu/node-context-menu
         [y]="menuY"
         [nodeName]="menuNodeName"
         [hasSiblings]="menuHasSiblings"
+        [hasExcludedSiblings]="menuHasExcludedSiblings"
         (onRemove)="handleRemove()"
         (onKeepPath)="handleKeepPath()"
+        (onAddBackSiblings)="handleAddBackSiblings()"
       ></app-node-context-menu>
     </div>
   `,
@@ -41,6 +43,7 @@ export class GraphCanvasComponent implements OnInit, OnDestroy, AfterViewInit {
   menuNodeName = '';
   menuNodeId = '';
   menuHasSiblings = false;
+  menuHasExcludedSiblings = false;
 
   constructor(private treeService: TreeService, private cdr: ChangeDetectorRef) {}
 
@@ -218,6 +221,7 @@ export class GraphCanvasComponent implements OnInit, OnDestroy, AfterViewInit {
     this.menuNodeId = nodeData.data.id;
     this.menuNodeName = nodeData.data.name;
     this.menuHasSiblings = this.treeService.hasSiblings(nodeData.data.id);
+    this.menuHasExcludedSiblings = this.treeService.hasExcludedSiblings(nodeData.data.id);
     this.menuX = x + 15;
     this.menuY = y - 10;
 
@@ -243,6 +247,12 @@ export class GraphCanvasComponent implements OnInit, OnDestroy, AfterViewInit {
   // Handle keep path only (remove siblings) from context menu
   handleKeepPath(): void {
     this.treeService.keepPathOnly(this.menuNodeId);
+    this.hideContextMenu();
+  }
+
+  // Handle add back siblings from context menu
+  handleAddBackSiblings(): void {
+    this.treeService.restoreExcludedSiblings(this.menuNodeId);
     this.hideContextMenu();
   }
 

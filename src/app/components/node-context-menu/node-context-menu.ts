@@ -11,6 +11,9 @@ import { CommonModule } from '@angular/common';
       <button class="menu-item remove-btn" data-testid="remove-node-btn" (click)="onRemove.emit()">
         <span class="icon">✕</span> Remove Node
       </button>
+      <button class="menu-item add-back-btn" data-testid="add-back-siblings-btn" (click)="onAddBackSiblings.emit()" *ngIf="hasExcludedSiblings">
+        <span class="icon">↩</span> Add Back Siblings
+      </button>
       <button class="menu-item keep-path-btn" data-testid="keep-path-only-btn" (click)="onKeepPath.emit()" *ngIf="hasSiblings">
         <span class="icon">⊘</span> Keep Path Only
       </button>
@@ -23,7 +26,9 @@ export class NodeContextMenuComponent {
   @Input() y: number = 0;
   @Input() nodeName: string = '';
   @Input() hasSiblings: boolean = false;
+  @Input() hasExcludedSiblings: boolean = false;
 
   @Output() onRemove = new EventEmitter<string>();
   @Output() onKeepPath = new EventEmitter<string>();
+  @Output() onAddBackSiblings = new EventEmitter<string>();
 }
