@@ -90,6 +90,12 @@
             }
           },
           "defaultConfiguration": "development"
+        },
+        "test": {
+          "builder": "@angular/build:vytt",
+          "options": {
+            "tsConfig": "tsconfig.spec.json"
+          }
         }
       }
     }

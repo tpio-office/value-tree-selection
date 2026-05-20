@@ -15,7 +15,7 @@ export class TreeService {
   private readonly rawData: TreeNode = sampleTreeData;
 
   // State subjects
-  private readonly selectedNodeIdSubject = new BehaviorSubject<string>('1');
+  private readonly selectedNodeIdSubject = new BehaviorSubject<string>('3365');
   private readonly maxDepthSubject = new BehaviorSubject<number>(5);
   private readonly hiddenLevelsSubject = new BehaviorSubject<Set<number>>(new Set());
   private readonly selectedBranchIdsSubject = new BehaviorSubject<Set<string>>(new Set());
